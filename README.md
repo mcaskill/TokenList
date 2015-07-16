@@ -36,7 +36,7 @@ $ composer require mcaskill/tokenlist
 
 require 'vendor/autoload.php';
 
-use StringTokenList;
+use McAskill\TokenList\StringTokenList;
 
 printf( (string) ( new StringTokenList([ 'foo', 'baz', 'qux' ]) ) );
 ```
@@ -50,7 +50,7 @@ Why are you not using [composer](http://getcomposer.org/)? Download the reposito
 require 'path/to/StringTokenList.php';
 require 'path/to/DOMTokenList.php';
 
-use DOMTokenList;
+use McAskill\TokenList\DOMTokenList;
 
 printf( ( new DOMTokenList([ 'foo', 'baz', 'qux' ]) )->attr() );
 ```
