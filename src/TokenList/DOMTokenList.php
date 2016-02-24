@@ -7,7 +7,7 @@
  *
  * @license  MIT
  * @author   Chauncey McAskill <chauncey@mcaskill.ca>
- * @version  2015-07-16
+ * @version  2016-02-24
  * @since    Version 2015-07-15
  */
 
@@ -68,7 +68,6 @@ use InvalidArgumentException;
  *
  * @property-read int $length Calls StringTokenList::count()
  */
-
 class DOMTokenList extends StringTokenList
 {
 
@@ -80,7 +79,6 @@ class DOMTokenList extends StringTokenList
 	 *
 	 * @var string|DOMElement
 	 */
-
 	private $element;
 
 	/**
@@ -88,7 +86,6 @@ class DOMTokenList extends StringTokenList
 	 *
 	 * @var string|DOMAttr
 	 */
-
 	private $attribute;
 
 
@@ -112,10 +109,7 @@ class DOMTokenList extends StringTokenList
 	 *                                  provided $attribute is not accesible.
 	 * @throws InvalidArgumentException If the provided $tokens is not a scalar
 	 *                                  or an array of.
-	 *
-	 * @return $this
 	 */
-
 	public function __construct( $element, $attribute, $tokens = [] )
 	{
 		$is_elem_string = is_string( $element );
@@ -162,8 +156,6 @@ class DOMTokenList extends StringTokenList
 		}
 
 		parent::__construct( $tokens );
-
-		return $this;
 	}
 
 	/**
@@ -173,7 +165,6 @@ class DOMTokenList extends StringTokenList
 	 *
 	 * @return mixed
 	 */
-
 	public function __get( $name )
 	{
 		switch ( $name ) {
@@ -192,14 +183,13 @@ class DOMTokenList extends StringTokenList
 	 *
 	 * Will only update the value if self::$attribute is a DOMAttr.
 	 */
-
 	protected function __update()
 	{
 		/** Rebase array indices */
 		parent::__update();
 
 		if ( $this->count() && $this->attribute instanceof DOMAttr ) {
-			$this->attribute->value = $this->__toString();
+			$this->attribute->value = (string) $this;
 		}
 	}
 
@@ -208,7 +198,6 @@ class DOMTokenList extends StringTokenList
 	 *
 	 * @return string Stringified token list, wrapped in an HTML attribute.
 	 */
-
 	public function __toAttribute()
 	{
 		if ( $this->count() ) {
@@ -222,7 +211,8 @@ class DOMTokenList extends StringTokenList
 			}
 
 			if ( $attr ) {
-				return $attr . '="' . $this->__toString() . '"';
+				$values = htmlspecialchars((string) $this, ENT_QUOTES, ini_get('default_charset'), false);
+				return sprintf('%1$s="%2$s"', $attr, $values);
 			}
 		}
 
@@ -236,10 +226,13 @@ class DOMTokenList extends StringTokenList
 	 *
 	 * @return string
 	 */
-
 	public function attr()
 	{
-		return ' ' . $this->__toAttribute();
+		$attr = $this->__toAttribute();
+
+		if ( $attr ) {
+			return ' ' . $attr;
+		}
 	}
 
 }

@@ -5,7 +5,7 @@
  *
  * @license  MIT
  * @author   Chauncey McAskill <chauncey@mcaskill.ca>
- * @version  2015-07-16
+ * @version  2016-02-24
  * @since    Version 2014-06-07
  */
 
@@ -132,7 +132,6 @@ use InvalidArgumentException;
  *
  * @property-read string[] $value Retrieves the list of tokens.
  */
-
 class StringTokenList implements
 	Iterator,
 	ArrayAccess,
@@ -149,7 +148,6 @@ class StringTokenList implements
 	 *
 	 * @var array
 	 */
-
 	protected $tokens;
 
 	/**
@@ -157,7 +155,6 @@ class StringTokenList implements
 	 *
 	 * @var int
 	 */
-
 	private $position;
 
 
@@ -169,10 +166,7 @@ class StringTokenList implements
 	 * Retrieve a new StringTokenList object
 	 *
 	 * @param string|string[] $tokens One or more case-sensitive tokens.
-	 *
-	 * @return $this
 	 */
-
 	public function __construct( $tokens = [] )
 	{
 		$this->clear()->rewind();
@@ -180,8 +174,6 @@ class StringTokenList implements
 		if ( $tokens ) {
 			$this->add( $tokens );
 		}
-
-		return $this;
 	}
 
 	/**
@@ -192,7 +184,6 @@ class StringTokenList implements
 	 *
 	 * @return mixed
 	 */
-
 	public function __call( $name, $arguments )
 	{
 		switch ( $name ) {
@@ -210,7 +201,6 @@ class StringTokenList implements
 	 *
 	 * @return mixed
 	 */
-
 	public function __get( $name )
 	{
 		switch ( $name ) {
@@ -225,7 +215,6 @@ class StringTokenList implements
 	 *
 	 * @return string Stringified token list.
 	 */
-
 	public function __toString()
 	{
 		return implode( $this->separator(), $this->tokens );
@@ -236,7 +225,6 @@ class StringTokenList implements
 	 *
 	 * @return $this
 	 */
-
 	public function clear()
 	{
 		$this->tokens = [];
@@ -251,7 +239,6 @@ class StringTokenList implements
 	 *
 	 * @return string|null Returns token if it exists, or NULL on failure.
 	 */
-
 	public function item( $offset )
 	{
 		$offset = (int) $offset;
@@ -270,7 +257,6 @@ class StringTokenList implements
 	 *
 	 * @return bool Returns TRUE if the token exists otherwise FALSE.
 	 */
-
 	public function contains( $token )
 	{
 		$token = (string) $token;
@@ -292,7 +278,6 @@ class StringTokenList implements
 	 *
 	 * @return $this
 	 */
-
 	public function replace( $old_token, $new_token )
 	{
 		$updated = false;
@@ -330,7 +315,6 @@ class StringTokenList implements
 	 *
 	 * @return bool Returns TRUE if token is now present, and FALSE otherwise.
 	 */
-
 	public function toggle( $token, $force = null )
 	{
 		$output   = null;
@@ -368,7 +352,6 @@ class StringTokenList implements
 	 *
 	 * Rebases the array indices after token(s) are appended or removed.
 	 */
-
 	protected function __update()
 	{
 		$this->tokens = array_values( $this->tokens );
@@ -386,7 +369,6 @@ class StringTokenList implements
 	 *
 	 * @return string
 	 */
-
 	protected function separator()
 	{
 		return chr( 0x20 );
@@ -399,7 +381,6 @@ class StringTokenList implements
 	 *
 	 * @return bool Returns TRUE if the token exists otherwise FALSE.
 	 */
-
 	protected function __contains( $token )
 	{
 		return in_array( $token, $this->tokens, true );
@@ -415,7 +396,6 @@ class StringTokenList implements
 	 *
 	 * @return $this
 	 */
-
 	protected function __add( array $tokens )
 	{
 		$updated = false;
@@ -443,7 +423,6 @@ class StringTokenList implements
 	 *
 	 * @return $this
 	 */
-
 	protected function __remove( $tokens )
 	{
 		$updated = false;
@@ -476,7 +455,6 @@ class StringTokenList implements
 	 *
 	 * @return $this
 	 */
-
 	protected function __modify( $action, $arguments )
 	{
 		$tokens = $arguments;
@@ -511,7 +489,6 @@ class StringTokenList implements
 	 *                                  is empty, or contains whitespace.
 	 *
 	 */
-
 	protected function __validate( $token )
 	{
 		if ( strlen( $token ) === 0 ) {
@@ -535,7 +512,6 @@ class StringTokenList implements
 	 *
 	 * @return mixed
 	 */
-
 	public function current()
 	{
 		return $this->item( $this->position );
@@ -548,7 +524,6 @@ class StringTokenList implements
 	 *
 	 * @return int|null Returns integer on success, or NULL on failure.
 	 */
-
 	public function key()
 	{
 		return $this->position;
@@ -561,7 +536,6 @@ class StringTokenList implements
 	 *
 	 * @link http://php.net/manual/en/iterator.next.php
 	 */
-
 	public function next()
 	{
 		++$this->position;
@@ -574,7 +548,6 @@ class StringTokenList implements
 	 *
 	 * @link http://php.net/manual/en/iterator.rewind.php
 	 */
-
 	public function rewind()
 	{
 		$this->position = 0;
@@ -590,7 +563,6 @@ class StringTokenList implements
 	 *
 	 * @return bool
 	 */
-
 	public function valid()
 	{
 		return isset( $this->tokens[ $this->position ] );
@@ -610,7 +582,6 @@ class StringTokenList implements
 	 *
 	 * @return bool Returns TRUE if the token exists otherwise FALSE.
 	 */
-
 	public function offsetExists( $offset )
 	{
 		return $this->contains( $offset );
@@ -625,7 +596,6 @@ class StringTokenList implements
 	 *
 	 * @return string|null Returns token if it exists, or NULL on failure.
 	 */
-
 	public function offsetGet( $offset )
 	{
 		if ( is_int( $offset ) ) {
@@ -644,7 +614,6 @@ class StringTokenList implements
 	 * @param int|null        $offset The index is ignored.
 	 * @param int|string|null $value  The value to set.
 	 */
-
 	public function offsetSet( $offset, $value )
 	{
 		$is_offset_string = is_string( $offset );
@@ -677,7 +646,6 @@ class StringTokenList implements
 	 *
 	 * @param int|string $offset The token to unset.
 	 */
-
 	public function offsetUnset( $offset )
 	{
 		if ( is_int( $offset ) ) {
@@ -705,5 +673,4 @@ class StringTokenList implements
 	{
 		return count( $this->tokens );
 	}
-
 }
